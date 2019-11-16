@@ -509,7 +509,7 @@ mymap.fitBounds(langLayer.getBounds());
             return unitClass
           });
 
-          var classes = ["<150", "50-99", "100-499", "500-999", ">=1000"];
+          var classes = ["<50", "50-99", "100-499", "500-999", ">=1000"];
           var classOrdinal = d3.scaleOrdinal().domain(classes);
           var dateDimension = ndx.dimension(function(d) {
             return +d.PlantingYear
