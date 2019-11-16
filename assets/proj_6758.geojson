@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "proj_6758",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 3143, "Comments": null, "DateCreate": "2016\/02\/09", "DateModifi": "2016\/02\/09", "FOLDERRSN": 0, "ProjectNam": "Alden Wq Retrofit", "PROJECT_ID": 6758, "ProjectTyp": "Capital", "Status": null, "UserCreate": "MANGOLDD", "UserModifi": "MANGOLDD", "UniversalP": 700981}, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -122.7620562367, 45.4604124105 ], [ -122.7619864994, 45.4604086475 ], [ -122.7619999097, 45.4603070572 ], [ -122.7617451015, 45.4603014132 ], [ -122.761763875, 45.4594566982 ], [ -122.762099153, 45.4594378857 ], [ -122.7621179281, 45.4603070564 ], [ -122.7620562365, 45.4603089384 ], [ -122.7620562374, 45.4603823097 ], [ -122.7620562367, 45.4604124105 ] ] ] ] } }
+]
+}

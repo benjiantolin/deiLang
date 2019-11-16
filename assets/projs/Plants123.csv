@@ -1,0 +1,73 @@
+ProjectId,ProjectName,PlantingYear,MaterialType,Units,LatinName,SpeciesCategory,SpeciesType,WetlandIndicatorCode,StockType
+123,Fanno Creek -  Englewood,2007,Symphoricarpos albus (Common Snowberry) - Bare Root,600,Symphoricarpos albus,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2007,Physocarpus capitatus (Pacific Ninebark) - Bare Root,1200,Physocarpus capitatus,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Euonymus occidentalis (Western wahoo) - Bare Root,400,Euonymus occidentalis,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2007,Salix lasiandra (Pacific Willow) - Bare Root,600,Salix lucida ssp. lasiandra,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Sambucus cerulea (Blue Elderberry) - Bare Root,1975,Sambucus nigra ssp. cerulea,Native Woody,Shrub,NI,Bare Root
+123,Fanno Creek -  Englewood,2007,Spiraea douglasii (Douglas Spiraea) - Bare Root,2000,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Rubus ursinus (trailing blackberry) - Bare Root,400,Rubus ursinus,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2007,Quercus garryana (Oregon White Oak) - Bare Root,600,Quercus garryana,Native Woody,Tree,FACU,Bare Root
+123,Fanno Creek -  Englewood,2007,Pinus ponderosa (W.v.) (W. v. Ponderosa pine ) - Bare Root,100,Pinus ponderosa,Native Woody,Tree,FACU,Bare Root
+123,Fanno Creek -  Englewood,2007,Populus trichocarpa (Black cottonwood) - Bare Root,1000,Populus trichocarpa,Native Woody,Tree,NI,Bare Root
+123,Fanno Creek -  Englewood,2007,Salix piperi (Piper Willow) - Bare Root,600,Salix piperi,Not Listed,Not Listed,Not Listed,Bare Root
+123,Fanno Creek -  Englewood,2007,Salix scouleriana (Scoulers Willow) - Bare Root,600,Salix scouleriana,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2007,Malus fusca (Western crabapple) - Bare Root,300,Malus fusca,Native Woody,Tree,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Mahonia aquifolium (Tall Oregon grape) - Bare Root,400,Mahonia aquifolium,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2007,Fraxinus latifolia (Oregon ash) - Bare Root,1300,Fraxinus latifolia,Native Woody,Tree,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Cornus sericea (Red osier dogwood) - Bare Root,4000,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2007,Salix sitchensis (Sitka Willow) - Bare Root,600,Salix sitchensis,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2008,Spiraea douglasii (Douglas Spiraea) - Bare Root,500,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2008,Populus trichocarpa (Black cottonwood) - Bare Root,500,Populus trichocarpa,Native Woody,Tree,NI,Bare Root
+123,Fanno Creek -  Englewood,2008,Quercus garryana (Oregon White Oak) - Bare Root,200,Quercus garryana,Native Woody,Tree,FACU,Bare Root
+123,Fanno Creek -  Englewood,2008,Philadelphus lewisii (Mock Orange) - Bare Root,150,Philadelphus lewisii,Native Woody,Shrub,NI,Bare Root
+123,Fanno Creek -  Englewood,2008,Cornus sericea (Red osier dogwood) - Bare Root,93,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2008,Crataegus douglasii (Black Hawthorn) - Bare Root,400,Crataegus douglasii,Native Woody,Tree,FAC,Bare Root
+123,Fanno Creek -  Englewood,2008,Mahonia aquifolium (Tall Oregon grape) - Container,50,Mahonia aquifolium,Native Woody,Shrub,FACU,Container
+123,Fanno Creek -  Englewood,2008,Fraxinus latifolia (Oregon ash) - Container,50,Fraxinus latifolia,Native Woody,Tree,FACW,Container
+123,Fanno Creek -  Englewood,2008,Quercus garryana (Oregon White Oak) - Container,20,Quercus garryana,Native Woody,Tree,FACU,Container
+123,Fanno Creek -  Englewood,2008,Sambucus racemosa (Red Elderberry) - Container,20,Sambucus racemosa,Native Woody,Shrub,FACU,Container
+123,Fanno Creek -  Englewood,2008,Malus fusca (Western crabapple) - Container,14,Malus fusca,Native Woody,Tree,FACW,Container
+123,Fanno Creek -  Englewood,2008,Lonicera involucrata (Black Twinberry) - Container,30,Lonicera involucrata,Native Woody,Shrub,FAC,Container
+123,Fanno Creek -  Englewood,2008,Rosa pisocarpa (Swamp rose) - Container,50,Rosa pisocarpa,Native Woody,Shrub,FAC,Container
+123,Fanno Creek -  Englewood,2008,Salix lasiandra (Pacific Willow) - Container,50,Salix lucida ssp. lasiandra,Native Woody,Shrub,FACW,Container
+123,Fanno Creek -  Englewood,2008,Rubus spectabilis (Salmonberry) - Container,40,Rubus spectabilis,Native Woody,Shrub,FAC,Container
+123,Fanno Creek -  Englewood,2009,Spiraea douglasii (Douglas Spiraea) - Bare Root,50,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2009,Salix sitchensis (Sitka Willow) - Bare Root,50,Salix sitchensis,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2009,Cornus sericea (Red osier dogwood) - Bare Root,100,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2010,Physocarpus capitatus (Pacific Ninebark) - Bare Root,100,Physocarpus capitatus,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2010,Lonicera involucrata (Black Twinberry) - Bare Root,100,Lonicera involucrata,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2010,Symphoricarpos albus (Common Snowberry) - Bare Root,100,Symphoricarpos albus,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2010,Spiraea douglasii (Douglas Spiraea) - Bare Root,100,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2010,Sambucus racemosa (Red Elderberry) - Bare Root,100,Sambucus racemosa,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2010,Populus trichocarpa (Black cottonwood) - Bare Root,100,Populus trichocarpa,Native Woody,Tree,NI,Bare Root
+123,Fanno Creek -  Englewood,2010,Salix piperi (Piper Willow) - Bare Root,150,Salix piperi,Not Listed,Not Listed,Not Listed,Bare Root
+123,Fanno Creek -  Englewood,2010,Mahonia aquifolium (Tall Oregon grape) - Bare Root,200,Mahonia aquifolium,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2010,Rosa pisocarpa (Swamp rose) - Bare Root,50,Rosa pisocarpa,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2010,Cornus sericea (Red osier dogwood) - Bare Root,100,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2010,Fraxinus latifolia (Oregon ash) - Bare Root,100,Fraxinus latifolia,Native Woody,Tree,FACW,Bare Root
+123,Fanno Creek -  Englewood,2011,Physocarpus capitatus (Pacific Ninebark) - Bare Root,250,Physocarpus capitatus,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2011,Salix lasiandra (Pacific Willow) - Bare Root,250,Salix lucida ssp. lasiandra,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2011,Spiraea douglasii (Douglas Spiraea) - Bare Root,500,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2011,Salix piperi (Piper Willow) - Bare Root,250,Salix piperi,Not Listed,Not Listed,Not Listed,Bare Root
+123,Fanno Creek -  Englewood,2011,Cornus sericea (Red osier dogwood) - Bare Root,250,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2011,Salix piperi (Piper Willow) - Live Stakes (On-Site),500,Salix piperi,Not Listed,Not Listed,Not Listed,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2011,Rosa pisocarpa (Swamp rose) - Bare Root,250,Rosa pisocarpa,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2011,Spiraea douglasii (Douglas Spiraea) - Live Stakes (On-Site),1500,Spiraea douglasii,Native Woody,Shrub,FACW,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2011,Fraxinus latifolia (Oregon ash) - Bare Root,250,Fraxinus latifolia,Native Woody,Tree,FACW,Bare Root
+123,Fanno Creek -  Englewood,2012,Physocarpus capitatus (Pacific Ninebark) - Bare Root,300,Physocarpus capitatus,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2012,Spiraea douglasii (Douglas Spiraea) - Bare Root,400,Spiraea douglasii,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2012,Symphoricarpos albus (Common Snowberry) - Bare Root,200,Symphoricarpos albus,Native Woody,Shrub,FACU,Bare Root
+123,Fanno Creek -  Englewood,2012,Salix lasiandra (Pacific Willow) - Bare Root,200,Salix lucida ssp. lasiandra,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2012,Salix piperi (Piper Willow) - Bare Root,200,Salix piperi,Not Listed,Not Listed,Not Listed,Bare Root
+123,Fanno Creek -  Englewood,2012,Rosa pisocarpa (Swamp rose) - Bare Root,400,Rosa pisocarpa,Native Woody,Shrub,FAC,Bare Root
+123,Fanno Creek -  Englewood,2012,Cornus sericea (Red osier dogwood) - Bare Root,300,Cornus sericea,Native Woody,Shrub,FACW,Bare Root
+123,Fanno Creek -  Englewood,2012,Salix sitchensis (Sitka Willow) - Live Stakes (On-Site),500,Salix sitchensis,Native Woody,Shrub,FACW,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2012,Cornus sericea (Red osier dogwood) - Live Stakes (On-Site),500,Cornus sericea,Native Woody,Shrub,FACW,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2012,Salix piperi (Piper Willow) - Live Stakes (On-Site),500,Salix piperi,Not Listed,Not Listed,Not Listed,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2012,Salix scouleriana (Scoulers Willow) - Live Stakes (On-Site),500,Salix scouleriana,Native Woody,Shrub,FAC,Live Stakes (On-Site)
+123,Fanno Creek -  Englewood,2016,Claytonia sibirica (miner's lettuce) - Plug,490,Claytonia sibirica,Native Herbaceous,Forb,FAC,Plug
+123,Fanno Creek -  Englewood,2016,Geum macrophyllum (large leaved avens) - Plug,980,Geum macrophyllum,Native Herbaceous,Forb,FAC,Plug
+123,Fanno Creek -  Englewood,2016,Hydrophyllum tenuipes (Pacific waterleaf) - Plug,250,Hydrophyllum tenuipes,Native Herbaceous,Forb,FAC,Plug
+123,Fanno Creek -  Englewood,2016,Tellima grandiflora (fringecup) - Plug,750,Tellima grandiflora,Native Herbaceous,Forb,FACU,Plug
+123,Fanno Creek -  Englewood,2016,Vancouveria hexandra (inside out flower) - Plug,304,Vancouveria hexandra,Native Herbaceous,Forb,NI,Plug
+123,Fanno Creek -  Englewood,2016,Viola glabella (stream violet) - Plug,250,Viola glabella,Native Herbaceous,Forb,FACW,Plug
