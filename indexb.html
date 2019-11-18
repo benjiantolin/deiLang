@@ -39,7 +39,7 @@
       <div class="container-fluid d-flex justify-content-between">
         <a href="index.html" class="navbar-brand d-flex align-items-center">
           <img src="img/navbar.png" class="img-responsive" height="30"></img>
-          <strong>Wiki Gallery</strong>
+          <strong>DEI Language Web Map Tool</strong>
         </a>
       </div>
     </div>
@@ -53,11 +53,11 @@
       <div id="projDesc">Something short and leading about the displaying project.</div>
       <div id="projImages" class="row col-md-12"></div>
       <hr>
-      <h5 class="subSection">Bar Chart of Prevelant Languages</h5>
+      <h5 class="subSection">A Histogram of Projects Classified by the # of Its Planting Units</h5>
       <div id="class-chart"></div><hr>
-      <h5 class="subSection">xxxxxxxxxxxxxx</h5>
+      <h5 class="subSection">The # of Planting Units Per Year</h5>
       <div id="date-chart"></div><hr>
-      <h5 class="subSection">Pie Chart of LEP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <h5 class="subSection">Stock Types &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Species</h5>
       <div class="row col-md-12">
         <div id="stock-chart" class="col-md-5"></div>
@@ -110,16 +110,25 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
       theme: "minimal"
     });
 
+    // $('#dismiss').on('click', function() {
+    //   $('#sidebar').removeClass('active');
+    //   $('#info').css('left', '20px');
+    //   // $('.overlay').removeClass('active');
+    // });
+
+    // });
+
     // creating sidebar https://bootstrapious.com/p/bootstrap-sidebar
     //1. Create a map object.
     var mymap = L.map('map', {
       center: [44, -123.5],
-      zoomControl: false,
       zoom: 7,
-      maxZoom: 16,
-      minZoom: 3
+      maxZoom: 10,
+      minZoom: 3,
+      zoomcontrol: false,
+      detectRetina: true
     });
-
+$(".leaflet-control-zoom").hide();
     new L.Control.Zoom({
       position: 'topright'
     }).addTo(mymap);
@@ -137,14 +146,44 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
       'Satellite': satellite
     }
 
+    colors = chroma.scale('PuBuGn').colors(5);
+
+    function setColor(lepHH) {
+      var id = 0;
+      if (1-lepHH > .25) {
+        id = 4;
+      } else if (1-lepHH > .17 && 1-lepHH <= .25) {
+        id = 3;
+      } else if (1-lepHH > .1 && 1-lepHH <= .17) {
+        id = 2;
+      } else if (1-lepHH > .06 && 1-lepHH <= .1) {
+        id = 1;
+      } else {
+        id = 0;
+      }
+      return colors[id];
+    }
+
+    // 7. Set style function that sets fill color.md
+    function style(feature) {
+      return {
+        fillColor: setColor(feature.properties.shareEng),
+        fillOpacity: 0.4,
+        weight: 2,
+        opacity: 1,
+        color: '#b4b4b4',
+        dashArray: '4'
+      };
+    }
 
     var lang_group = L.layerGroup().addTo(mymap);
 
+    $.when(
+      $.getJSON("assets/Lang.geojson")).done(function(lang) {
 
-    $.when($.getJSON("assets/Lang.geojson")).done(function(lang) {
 
       var overlays = {
-        "<span style='color:red'>Language</span>": lang_group
+        "<span style='color:red'>LangLayer</span>": lang_group,
       }
 
       L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(mymap);
@@ -163,6 +202,8 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
         }
       }).addTo(lang_group);
       mymap.fitBounds(langLayer.getBounds());
+
+      lang_group.bringToFront();
 
       function highlightFeature(e) {
         // e indicates the current event
@@ -183,12 +224,13 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
 
         geoID = e.target.feature.properties.Geography;
+        // projName = e.target.feature.properties.ProjectNam;
 
         Promise.all([
-          d3.csv('assets/county/' + geoID + '.csv'),
+          d3.csv('assets/shareLang.csv'),
         ]).then(function(datasets) {
 
-          $("#projName").text(geoID + ' County');
+          $("#projName").text(geoID + " County");
 
           var ndx = crossfilter(datasets[0]); //passes the features to the crossfilter
 
@@ -202,14 +244,9 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
             return d
           });
 
-
           //////////////////////////////////////////////SORT THE DATA///////////////////////////////////////////////////////////
           //Now that we have our initial data imported and in the right format using crossfilter we now have to sort out the data that we want to display, set up
           //the chart space and populate the graphs
-
-          var geoDimension = ndx.dimension(function(d) {
-            return d.geo;
-          });
 
           var spanishDimension = ndx.dimension(function(d) {
             return d.spanish;
@@ -355,8 +392,6 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
             return d.otherLess;
           });
 
-          var classes = ["Spanish", "French", "German", "Russian", "Indo-European", "Korean", "Chinese", "Vietnamese", "Tagolog", "Other Asian", "Arabic", "Other"];
-          var classOrdinal = d3.scaleOrdinal().domain(classes);
           /////////////////////////////////////////GROUP THE DATA///////////////////////////////////////////////////////////////
 
 
@@ -503,8 +538,21 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
           var otherLessDimensionGroup = otherLessDimension.group().reduceSum(function(d) {
             return +d.otherLess;
           });
-
           /////////////////////////////////////CREATE THE CHARTS////////////////////////////////////////////////////////////////
+
+          // var classChart = dc.barChart('#class-chart');
+          //
+          // classChart
+          //   .height(150)
+          //   .x(classOrdinal)
+          //   .xUnits(dc.units.ordinal)
+          //   .brushOn(false)
+          //   .dimension(classDimension)
+          //   .group(classDimensionGroup)
+          //   .elasticY(true)
+          //   .xAxisLabel('Class')
+          //   .yAxisLabel('# Units')
+          //   .yAxis().ticks(5);
 
           var stockChart = dc.pieChart('#stock-chart');
 
@@ -521,8 +569,8 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
           speciesChart
             .height(150)
             .width(150)
-            .dimension(speciesDimension)
-            .group(speciesDimensionGroup);
+            .dimension(frenchDimension)
+            .group(frenchDimensionGroup);
 
 
 
@@ -549,6 +597,33 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
           //   .xUnits(dc.units.ordinal)
           //   .yAxis().ticks(5); //timeDate object that has the format for the date
 
+
+
+          // var dateChart2 = dc.barChart('#date-chart2');
+          // dateChart2
+          //   // .renderArea(true) //area or lines
+          //   .brushOn(false)
+          //   .height(150)
+          //   .transitionDuration(1000) //how long it takes to transition
+          //   .margins({
+          //     top: 30,
+          //     right: 50,
+          //     bottom: 30,
+          //     left: 50
+          //   })
+          //   .dimension(dateDimension2)
+          //   .group(dateDimensionGroup2)
+          //   .xAxisLabel('Year')
+          //   .yAxisLabel('# Assessments')
+          //   .elasticY(true)
+          //   // .controlsUseVisibility(true)
+          //   .x(d3.scaleOrdinal())
+          //   .xUnits(dc.units.ordinal)
+          //   .yAxis().ticks(5); //timeDate object that has the format for the date
+
+
+
+
           var itemCount = dc.dataCount('.dc-data-count'); //creates text depicting how many earthquakes are on screen, needs a <p> element
           itemCount
             .dimension(ndx)
@@ -563,14 +638,31 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
 
 
           dc.renderAll(); //activates everything
-          $("#date-chart svg").attr("fill", "none");
+          // $("#date-chart2 svg").attr("fill", "none");
+          // $("#date-chart svg").attr("fill", "none");
+          //
+          // dateChart.on('filtered', function(chart, filter) {
+          //   dateDimension2.filter(filter);
+          //   dateDimension.filter(filter);
+          //   dc.redrawAll();
+          //   $("#date-chart svg").attr("fill", "none");
+          //
+          // });
 
-          dateChart.on('filtered', function(chart, filter) {
-            dateDimension.filter(filter);
-            dc.redrawAll();
-            $("#date-chart svg").attr("fill", "none");
 
-          });
+
+          // dateChart2.on('filtered', function(chart, filter) {
+          //
+          //   dateChart.filter(filter);
+          //   // speciesChart.filter(filter);
+          //   dateDimension.filter(filter);
+          //   // dateDimension2.filter(filter);
+          //
+          //   // dateChart.redraw();
+          //
+          //   dc.redrawAll();
+          //   // $("#date-chart2 svg").attr("fill", "none");
+          // });
 
 
         });
@@ -588,35 +680,20 @@ Hover over a project polygon to activate a sidebar with several charts of the pr
 
     });
 
-    colors = chroma.scale('PuBuGn').colors(5);
 
-    function setColor(lepHH) {
-      var id = 0;
-      if (1-lepHH > .25) {
-        id = 4;
-      } else if (1-lepHH > .17 && 1-lepHH <= .25) {
-        id = 3;
-      } else if (1-lepHH > .1 && 1-lepHH <= .17) {
-        id = 2;
-      } else if (1-lepHH > .06 && 1-lepHH <= .1) {
-        id = 1;
+    function stream_style(feature) {
+      var w = 1;
+      if (feature.properties.StreamClas == "Perennial") {
+        w = 2.5;
       } else {
-        id = 0;
+        w = 1;
       }
-      return colors[id];
-    }
-
-    // 7. Set style function that sets fill color.md
-    function style(feature) {
       return {
-        fillColor: setColor(feature.properties.shareEng),
-        fillOpacity: 0.4,
-        weight: 2,
-        opacity: 1,
-        color: '#b4b4b4',
-        dashArray: '4'
+        opacity: 0.7,
+        weight: w
       };
-    }
+    };
+
 
     $(".leaflet-control-attribution")
       .css("bottom", "60px")
