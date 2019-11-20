@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Benji Antolin">
+  <title>DEI Language Web Tool</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.6.14/c3.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/case3.css">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+  <script src="https://unpkg.com/d3@5/dist/d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.6.14/c3.min.js"></script>
+  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+  <script src="https://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+  <script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+  <!-- <script src="js/leaflet.heat.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container-fluid d-flex justify-content-between">
+        <a href="index.html" class="navbar-brand d-flex align-items-center">
+          <img src="img/navbar.png" class="img-responsive" height="30"></img>
+          <strong>DEI Language Web Map Tool</strong>
+        </a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="loader"></div>
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <h3 id="projName">Oregon</h3>
+      </div>
+      <div id="projDesc">Something short and leading about the displaying project.</div>
+      <div id="projImages" class="row col-md-12"></div>
+      <hr>
+      <h5 class="subSection">A Histogram of Projects Classified by the # of Its Planting Units</h5>
+      <div id="class-chart"></div><hr>
+      <h5 class="subSection">The # of Planting Units Per Year</h5>
+      <div id="date-chart"></div><hr>
+      <h5 class="subSection">Stock Types &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Species</h5>
+      <div class="row col-md-12">
+        <div id="stock-chart" class="col-md-5"></div>
+        <div id="species-chart" class="col-md-5"></div>
+      </div>
+      <hr>
+      <h5 class="subSection">The # of Site Assessments Per Year</h5>
+      <div id="date-chart2"></div>
+      <p class="dc-data-count"># Project Items</p>
+      <div id="plants" class="row"></div>
+      <div id="monitor" class="row"></div>
+
+      <footer>
+        <!-- <a href='https://github.com/jakobzhao/storymap'><img src='http://jakobzhao.github.io/storymap/img/logo.png' width='18px' target='_blank' > storymap.js </a> -->
+      </footer>
+    </div>
+
+    <div id="map"></div>
+
+  </main>
+
+  <!-- <div id="info">
+    <h4><i class="fas fa-hard-hat cws-project"></i> Project Impacts</h4>
+    <p id="caseDesc">Where have CWS projects been implemented in the Fanno Creek subbasin and have those projects impacted water quality downstream? This map dynamically visualizes project plant and monitoring data, and water quality variables through map visualiztions and charts.
+    </p>
+    <p id="mapFunc">The default settings on this application shows Fanno Creek and basin and highlights four CWS projects.
+
+Hover over a project polygon to activate a sidebar with several charts of the projects planting and monitoring data. In this sidebar, you also can see selected photos of the CWS project site as well as a brief summary of CWS project. At the bottom left of the application is a chart of Water Temperature and Dissolved Oxygen over time at the USGS water monitor at Durham.
+    </p>
+    <div id="temp" style="min-height: 250px"></div>
+  </div> -->
+
+  <script>
+
+  $(window).ready(function() {
+    $('.loader').fadeOut("slow");
+  });
+
+
+    var createLabelIcon = function(labelClass, labelText) {
+      return L.divIcon({
+        className: labelClass,
+        html: labelText
+      })
+    }
+
+    // $(document).ready(function() {
+
+    $("#sidebar").mCustomScrollbar({
+      theme: "minimal"
+    });
+
+    // $('#dismiss').on('click', function() {
+    //   $('#sidebar').removeClass('active');
+    //   $('#info').css('left', '20px');
+    //   // $('.overlay').removeClass('active');
+    // });
+
+    // });
+
+    // creating sidebar https://bootstrapious.com/p/bootstrap-sidebar
+    //1. Create a map object.
+    var mymap = L.map('map', {
+      center: [44, -125.5],
+      zoom: 7,
+      maxZoom: 10,
+      minZoom: 3,
+      zoomcontrol: false,
+      detectRetina: true
+    });
+$(".leaflet-control-zoom").hide();
+    new L.Control.Zoom({
+      position: 'topright'
+    }).addTo(mymap);
+
+
+    // 2. Add a base map.
+
+    var gray = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png').addTo(mymap);
+    var streets = L.tileLayer('http://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png');
+    var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+
+    var baseLayers = {
+      'Grayscale': gray,
+      'Streets': streets,
+      'Satellite': satellite
+    }
+
+    colors = chroma.scale('PuBuGn').colors(5);
+
+    function setColor(lepHH) {
+      var id = 0;
+      if (1-lepHH > .25) {
+        id = 4;
+      } else if (1-lepHH > .17 && 1-lepHH <= .25) {
+        id = 3;
+      } else if (1-lepHH > .1 && 1-lepHH <= .17) {
+        id = 2;
+      } else if (1-lepHH > .06 && 1-lepHH <= .1) {
+        id = 1;
+      } else {
+        id = 0;
+      }
+      return colors[id];
+    }
+
+    // 7. Set style function that sets fill color.md
+    function style(feature) {
+      return {
+        fillColor: setColor(feature.properties.shareEng),
+        fillOpacity: 0.4,
+        weight: 2,
+        opacity: 1,
+        color: '#b4b4b4',
+        dashArray: '4'
+      };
+    }
+
+    var lang_group = L.layerGroup().addTo(mymap);
+
+    $.when(
+      $.getJSON("assets/Lang.geojson")).done(function(lang) {
+
+
+      var overlays = {
+        "<span style='color:red'>LangLayer</span>": lang_group,
+      }
+
+      L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(mymap);
+
+
+      var langLayer = L.geoJSON(lang, {
+        style: style,
+        onEachFeature: function(feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            click: highlightFeature,
+            mouseout: function(e) {
+              langLayer.resetStyle(e.target);
+            }
+          });
+        }
+      }).addTo(lang_group);
+      // mymap.fitBounds(langLayer.getBounds());
+
+      lang_group.bringToFront();
+
+      function highlightFeature(e) {
+        // e indicates the current event
+        var layer = e.target; //the target capture the object which the event associates with
+        layer.setStyle({
+          weight: 1,
+          opacity: 1,
+          color: 'white',
+          fillColor: 'yellow',
+          fillOpacity: 0.8
+        });
+
+
+        $('#sidebar').addClass('active');
+        $('#info').css('left', '420px');
+        // $('.overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+
+        geoID = e.target.feature.properties.Geography;
+        // projName = e.target.feature.properties.ProjectNam;
+
+        Promise.all([
+          d3.csv('assets/shareLang.csv'),
+        ]).then(function(datasets) {
+
+          $("#projName").text(geoID + " County");
+
+          var ndx = crossfilter(datasets[0]); //passes the features to the crossfilter
+
+          // groups everything together into one group, this is used to quickly search all of the data at once
+          var all = ndx.groupAll();
+
+
+          //Takes each of the records of the dataset and returns each individual line so that they can be used. .dimension() puts
+          // the data into an easily searchable/manipulable format for DC
+          var everything = ndx.dimension(function(d) {
+            return d
+          });
+
+          //////////////////////////////////////////////SORT THE DATA///////////////////////////////////////////////////////////
+          //Now that we have our initial data imported and in the right format using crossfilter we now have to sort out the data that we want to display, set up
+          //the chart space and populate the graphs
+
+          var spanishDimension = ndx.dimension(function(d) {
+            return d.spanish;
+          });
+
+          var spanishWellDimension = ndx.dimension(function(d) {
+            return d.spanWell;
+          });
+
+          var spanishLessDimension = ndx.dimension(function(d) {
+            return d.spanLess;
+          });
+
+          var frenchDimension = ndx.dimension(function(d) {
+            return d.french;
+          });
+
+          var frenchWellDimension = ndx.dimension(function(d) {
+            return d.frenWell;
+          });
+
+          var frenchLessDimension = ndx.dimension(function(d) {
+            return d.frenLess;
+          });
+
+          var germanDimension = ndx.dimension(function(d) {
+            return d.german;
+          });
+
+          var germanWellDimension = ndx.dimension(function(d) {
+            return d.germWell;
+          });
+
+          var germanLessDimension = ndx.dimension(function(d) {
+            return d.germLess;
+          });
+
+          var russianDimension = ndx.dimension(function(d) {
+            return d.russian;
+          });
+
+          var russianWellDimension = ndx.dimension(function(d) {
+            return d.russWell;
+          });
+
+          var russianLessDimension = ndx.dimension(function(d) {
+            return d.russLess;
+          });
+
+          var indoEuroDimension = ndx.dimension(function(d) {
+            return d.indoEuro;
+          });
+
+          var indoEuroWellDimension = ndx.dimension(function(d) {
+            return d.indoWell;
+          });
+
+          var indoEuroLessDimension = ndx.dimension(function(d) {
+            return d.indoLess;
+          });
+
+          var koreanDimension = ndx.dimension(function(d) {
+            return d.korean;
+          });
+
+          var koreanWellDimension = ndx.dimension(function(d) {
+            return d.koreWell;
+          });
+
+          var koreanLessDimension = ndx.dimension(function(d) {
+            return d.koreLess;
+          });
+
+          var chineseDimension = ndx.dimension(function(d) {
+            return d.chinese;
+          });
+
+          var chineseWellDimension = ndx.dimension(function(d) {
+            return d.chinWell;
+          });
+
+          var chineseLessDimension = ndx.dimension(function(d) {
+            return d.chinLess;
+          });
+
+          var vietnameseDimension = ndx.dimension(function(d) {
+            return d.vietnamese;
+          });
+
+          var vietnameseWellDimension = ndx.dimension(function(d) {
+            return d.vietWell;
+          });
+
+          var vietnameseLessDimension = ndx.dimension(function(d) {
+            return d.vietLess;
+          });
+
+          var tagologDimension = ndx.dimension(function(d) {
+            return d.tagolog;
+          });
+
+          var tagologWellDimension = ndx.dimension(function(d) {
+            return d.tagoWell;
+          });
+
+          var tagologLessDimension = ndx.dimension(function(d) {
+            return d.tagoLess;
+          });
+
+          var otherAsianDimension = ndx.dimension(function(d) {
+            return d.otherAsian;
+          });
+
+          var otherAsianWellDimension = ndx.dimension(function(d) {
+            return d.otherAzWell;
+          });
+
+          var otherAsianLessDimension = ndx.dimension(function(d) {
+            return d.otherAzLess;
+          });
+
+          var arabicDimension = ndx.dimension(function(d) {
+            return d.arabic;
+          });
+
+          var arabicWellDimension = ndx.dimension(function(d) {
+            return d.arabWell;
+          });
+
+          var arabicLessDimension = ndx.dimension(function(d) {
+            return d.arabLess;
+          });
+
+          var otherDimension = ndx.dimension(function(d) {
+            return d.other;
+          });
+
+          var otherWellDimension = ndx.dimension(function(d) {
+            return d.otherWell;
+          });
+
+          var otherLessDimension = ndx.dimension(function(d) {
+            return d.otherLess;
+          });
+
+          /////////////////////////////////////////GROUP THE DATA///////////////////////////////////////////////////////////////
+
+
+          var spanishDimensionGroup = spanishDimension.group().reduceSum(function(d) {
+            return +d.spanish;
+          });
+
+          var spanishWellDimensionGroup = spanishWellDimension.group().reduceSum(function(d) {
+            return +d.spanWell;
+          });
+
+          var spanishLessDimensionGroup = spanishLessDimension.group().reduceSum(function(d) {
+            return +d.spanLess;
+          });
+
+          var frenchDimensionGroup = frenchDimension.group().reduceSum(function(d) {
+            return +d.french;
+          });
+
+          var frenchWellDimensionGroup = frenchWellDimension.group().reduceSum(function(d) {
+            return +d.frenWell;
+          });
+
+          var frenchLessDimensionGroup = frenchLessDimension.group().reduceSum(function(d) {
+            return +d.frenLess;
+          });
+
+          var germanDimensionGroup = germanDimension.group().reduceSum(function(d) {
+            return +d.german;
+          });
+
+          var germanWellDimensionGroup = germanWellDimension.group().reduceSum(function(d) {
+            return +d.germWell;
+          });
+
+          var germanLessDimensionGroup = germanLessDimension.group().reduceSum(function(d) {
+            return +d.germLess;
+          });
+
+          var russianDimensionGroup = russianDimension.group().reduceSum(function(d) {
+            return +d.russian;
+          });
+
+          var russianWellDimensionGroup = russianWellDimension.group().reduceSum(function(d) {
+            return +d.russWell;
+          });
+
+          var russianLessDimensionGroup = russianLessDimension.group().reduceSum(function(d) {
+            return +d.russLess;
+          });
+
+          var indoEuroDimensionGroup = indoEuroDimension.group().reduceSum(function(d) {
+            return +d.indoEuro;
+          });
+
+          var indoEuroWellDimensionGroup = indoEuroWellDimension.group().reduceSum(function(d) {
+            return +d.indoWell;
+          });
+
+          var indoEuroLessDimensionGroup = indoEuroLessDimension.group().reduceSum(function(d) {
+            return +d.indoLess;
+          });
+
+          var koreanDimensionGroup = koreanDimension.group().reduceSum(function(d) {
+            return +d.korean;
+          });
+
+          var koreanWellDimensionGroup = koreanWellDimension.group().reduceSum(function(d) {
+            return +d.koreWell;
+          });
+
+          var koreanLessDimensionGroup = koreanLessDimension.group().reduceSum(function(d) {
+            return +d.koreLess;
+          });
+
+          var chineseDimensionGroup = chineseDimension.group().reduceSum(function(d) {
+            return +d.chinese;
+          });
+
+          var chineseWellDimensionGroup = chineseWellDimension.group().reduceSum(function(d) {
+            return +d.chinWell;
+          });
+
+          var chineseLessDimensionGroup = chineseLessDimension.group().reduceSum(function(d) {
+            return +d.chinLess;
+          });
+
+          var vietnameseDimensionGroup = vietnameseDimension.group().reduceSum(function(d) {
+            return +d.vietnamese;
+          });
+
+          var vietnameseWellDimensionGroup = vietnameseWellDimension.group().reduceSum(function(d) {
+            return +d.vietWell;
+          });
+
+          var vietnameseLessDimensionGroup = vietnameseLessDimension.group().reduceSum(function(d) {
+            return +d.vietLess;
+          });
+
+          var tagologDimensionGroup = tagologDimension.group().reduceSum(function(d) {
+            return +d.tagolog;
+          });
+
+          var tagologWellDimensionGroup = tagologWellDimension.group().reduceSum(function(d) {
+            return +d.tagoWell;
+          });
+
+          var tagologLessDimensionGroup = tagologLessDimension.group().reduceSum(function(d) {
+            return +d.tagoLess;
+          });
+
+          var otherAsianDimensionGroup = otherAsianDimension.group().reduceSum(function(d) {
+            return +d.otherAsian;
+          });
+
+          var otherAsianWellDimensionGroup = otherAsianWellDimension.group().reduceSum(function(d) {
+            return +d.otherAzWell;
+          });
+
+          var otherAsianLessDimensionGroup = otherAsianLessDimension.group().reduceSum(function(d) {
+            return +d.otherAzLess;
+          });
+
+          var arabicDimensionGroup = arabicDimension.group().reduceSum(function(d) {
+            return +d.arabic;
+          });
+
+          var arabicWellDimensionGroup = arabicWellDimension.group().reduceSum(function(d) {
+            return +d.arabWell;
+          });
+
+          var arabicLessDimensionGroup = arabicLessDimension.group().reduceSum(function(d) {
+            return +d.arabLess;
+          });
+
+          var otherDimensionGroup = otherDimension.group().reduceSum(function(d) {
+            return +d.other;
+          });
+
+          var otherWellDimensionGroup = otherWellDimension.group().reduceSum(function(d) {
+            return +d.otherWell;
+          });
+
+          var otherLessDimensionGroup = otherLessDimension.group().reduceSum(function(d) {
+            return +d.otherLess;
+          });
+          /////////////////////////////////////CREATE THE CHARTS////////////////////////////////////////////////////////////////
+
+          // var classChart = dc.barChart('#class-chart');
+          //
+          // classChart
+          //   .height(150)
+          //   .x(classOrdinal)
+          //   .xUnits(dc.units.ordinal)
+          //   .brushOn(false)
+          //   .dimension(classDimension)
+          //   .group(classDimensionGroup)
+          //   .elasticY(true)
+          //   .xAxisLabel('Class')
+          //   .yAxisLabel('# Units')
+          //   .yAxis().ticks(5);
+
+          var stockChart = dc.pieChart('#stock-chart');
+
+          stockChart
+            .height(150)
+            .width(150)
+            // .innerRadius(50)
+            .dimension(spanishDimension)
+            .group(spanishDimensionGroup);
+
+
+          var speciesChart = dc.pieChart('#species-chart');
+
+          speciesChart
+            .height(150)
+            .width(150)
+            .dimension(frenchDimension)
+            .group(frenchDimensionGroup);
+
+
+
+
+          var dateChart = dc.barChart('#date-chart');
+          dateChart
+            // .renderArea(true) //area or lines
+            .height(150)
+            // .brushOn(true)
+            .transitionDuration(1000) //how long it takes to transition
+            .margins({
+              top: 30,
+              right: 50,
+              bottom: 30,
+              left: 50
+            })
+            .dimension(spanishDimension)
+            .group(spanishDimensionGroup)
+            .xAxisLabel('Year')
+            .yAxisLabel('# Units')
+            .elasticY(true)
+            // .controlsUseVisibility(true)
+            .x(d3.scaleOrdinal())
+            .xUnits(dc.units.ordinal)
+            .yAxis().ticks(5); //timeDate object that has the format for the date
+
+
+
+          // var dateChart2 = dc.barChart('#date-chart2');
+          // dateChart2
+          //   // .renderArea(true) //area or lines
+          //   .brushOn(false)
+          //   .height(150)
+          //   .transitionDuration(1000) //how long it takes to transition
+          //   .margins({
+          //     top: 30,
+          //     right: 50,
+          //     bottom: 30,
+          //     left: 50
+          //   })
+          //   .dimension(dateDimension2)
+          //   .group(dateDimensionGroup2)
+          //   .xAxisLabel('Year')
+          //   .yAxisLabel('# Assessments')
+          //   .elasticY(true)
+          //   // .controlsUseVisibility(true)
+          //   .x(d3.scaleOrdinal())
+          //   .xUnits(dc.units.ordinal)
+          //   .yAxis().ticks(5); //timeDate object that has the format for the date
+
+
+
+
+          var itemCount = dc.dataCount('.dc-data-count'); //creates text depicting how many earthquakes are on screen, needs a <p> element
+          itemCount
+            .dimension(ndx)
+            .group(all) //since we're counting how many records we have we use the 'all' variable but we could have used any variable that had the total counts
+            .html({
+              some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+                ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+              all: 'All records selected. Please click on the charts to apply filters.'
+            });
+
+          /////////////////////////////////////////DRAW ALL THE CHARTS//////////////////////////////////////////////////////////
+
+
+          dc.renderAll(); //activates everything
+          // $("#date-chart2 svg").attr("fill", "none");
+          // $("#date-chart svg").attr("fill", "none");
+          //
+          // dateChart.on('filtered', function(chart, filter) {
+          //   dateDimension2.filter(filter);
+          //   dateDimension.filter(filter);
+          //   dc.redrawAll();
+          //   $("#date-chart svg").attr("fill", "none");
+          //
+          // });
+
+
+
+          // dateChart2.on('filtered', function(chart, filter) {
+          //
+          //   dateChart.filter(filter);
+          //   // speciesChart.filter(filter);
+          //   dateDimension.filter(filter);
+          //   // dateDimension2.filter(filter);
+          //
+          //   // dateChart.redraw();
+          //
+          //   dc.redrawAll();
+          //   // $("#date-chart2 svg").attr("fill", "none");
+          // });
+
+
+        });
+
+
+      }
+      // 3.2.2 zoom to the highlighted feature when the mouse is clicking onto it.
+      function zoomToFeature(e) {
+        mymap.fitBounds(e.target.getBounds());
+      }
+
+
+      //  var labels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png').addTo(mymap);
+
+
+    });
+
+    $(".leaflet-control-attribution")
+      .css("bottom", "60px")
+      .css("background-color", "transparent")
+      .html("Supported by <a href='https://oregonexplorer.info/topics/rural-communities?ptopic=140' target='_blank'>The RCE @ Oregon State University </a> | Web Map by: <a href='#' target='_blank'>Benji Antolin");
+
+
+    $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+
+
+
+  </script>
+</body>
+
+</html>
